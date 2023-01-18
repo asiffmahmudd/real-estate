@@ -1,26 +1,49 @@
 [
     {
       "Id": 1,
+      "SellRent": 1,
       "Name": "Birla House",
       "Type": "House",
-      "Price" : 1200
+      "Price" : 1200,
+      "Image": "prop-1"
     },
     {
       "Id": 2,
+      "SellRent": 2,
       "Name": "Marla House",
       "Type": "House",
-      "Price" : 1000
-      },
+      "Price" : 1000,
+      "Image": "prop-2"
+    },
     {
       "Id": 3,
+      "SellRent": 1,
       "Name": "Greenleaf",
-      "Type": "House",
-      "Price" : 1100
+      "Type": "Apartment",
+      "Price" : 1100,
+      "Image": "prop-3"
     },
     {
       "Id": 4,
+      "SellRent": 1,
       "Name": "Ruby",
       "Type": "House",
-      "Price" : 1300
+      "Price" : 1300,
+      "Image": "prop-4"
+    },
+    {
+      "Id": 5,
+      "SellRent": 1,
+      "Name": "Crystal Villa",
+      "Type": "House",
+      "Price" : 1500,
+      "Image": "prop-5"
+    },
+    {
+      "Id": 6,
+      "SellRent": 2,
+      "Name": "Virdi Apt",
+      "Type": "Apartment",
+      "Price" : 1900
     }
 ]
