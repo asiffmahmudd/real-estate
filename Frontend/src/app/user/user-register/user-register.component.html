@@ -9,26 +9,59 @@
                 <div class="form-group col-12">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" formControlName="userName">
+                    <span class="error-block" *ngIf="!userName.valid && userName.touched">Please provide username</span>
                 </div>
         
                 <div class="form-group col-12">
                     <label for="email" class="form-label">Email</label>
                     <input type="text" class="form-control" formControlName="email">
+                    <span *ngIf="!email.valid && email.touched" class="error-block">
+                        <span *ngIf="email.hasError('required')">
+                            Please provide email id
+                        </span>
+                        <span *ngIf="email.hasError('email')">
+                            Please provide valid email id
+                        </span>
+                    </span>
                 </div>
         
                 <div class="form-group col-12">
                     <label for="passwrod" class="form-label">Password</label>
                     <input type="text" class="form-control" formControlName="password">
+                    <span *ngIf="!password.valid && password.touched" class="error-block">
+                        <span *ngIf="password.errors['required']">
+                            Please provide password
+                        </span>
+                        <span *ngIf="password.errors['minlength']">
+                            Password should not be lesser than 8 characters
+                        </span>
+                    </span>
                 </div>
         
                 <div class="form-group col-12">
-                    <label for="cpassword" class="form-label">Confirm Password</label>
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <input type="text" class="form-control" formControlName="confirmPassword">
+                    <span *ngIf="!confirmPassword.valid && confirmPassword.touched" class="error-block">
+                        <span *ngIf="confirmPassword.hasError('required')">
+                            Please confirm password
+                        </span>
+                    </span>
+                    <span class="error-block" *ngIf="registrationForm.hasError('mismatchedPasswords') && confirmPassword.valid">
+                        Password didn't match
+                    </span>
                 </div>
         
                 <div class="form-group col-12">
                     <label for="mobile" class="form-label">Mobile</label>
                     <input type="text" class="form-control" formControlName="mobile">
+                    <span *ngIf="!mobile.valid && mobile.touched" class="error-block">
+                        <span *ngIf="mobile.hasError('required')">
+                            Please provide a mobile number
+                        </span>
+                        <span *ngIf="mobile.hasError('maxlength')">
+                            Mobile number should not be more than 10 digits
+                        </span>
+                    </span>
                 </div>
         
                 <div class="form-group col-12 mt-3">

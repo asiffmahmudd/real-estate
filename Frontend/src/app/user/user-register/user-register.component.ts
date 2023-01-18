@@ -30,11 +30,32 @@ export class UserRegisterComponent implements OnInit {
   public matchingPasswords(c: AbstractControl): ValidationErrors | null {
     const password = c.get(['password']);
     const confirmPassword = c.get(['confirmPassword']);
-
+    
     if (password?.value !== confirmPassword?.value) {
       return { mismatchedPasswords: true };
     }
     return null;
+  }
+
+  //getter methods
+  get userName(){
+    return this.registrationForm.get('userName') as FormControl;
+  }
+
+  get email(){
+    return this.registrationForm.get('email') as FormControl;
+  }
+
+  get password(){
+    return this.registrationForm.get('password') as FormControl;
+  }
+
+  get confirmPassword(){
+    return this.registrationForm.get('confirmPassword') as FormControl;
+  }
+
+  get mobile(){
+    return this.registrationForm.get('mobile') as FormControl;
   }
 
   onSubmit(){
