@@ -10,24 +10,23 @@ import { HousingService } from 'src/app/services/housing.service';
   styleUrls: ['./property-list.component.css']
 })
 export class PropertyListComponent implements OnInit{
-  SellRent = 1
-  properties: IPropertyBase[] = [];
+  SellRent = 1;
+  properties: IPropertyBase[];
 
-  constructor(
-    private housingService: HousingService,
-    private route: ActivatedRoute
-  ){}
+  constructor(private route: ActivatedRoute, private housingService: HousingService) { }
 
   ngOnInit(): void {
-    if (this.route.snapshot.url.toString()){
-      this.SellRent = 2;
+    if (this.route.snapshot.url.toString()) {
+      this.SellRent = 2; // Means we are on rent-property URL else we are on base URL
     }
     this.housingService.getAllProperties(this.SellRent).subscribe(
-      data => {
+        data => {
+        console.log(data);
         this.properties = data;
       }, error => {
+        console.log('httperror:');
         console.log(error);
       }
-    )
+    );
   }
 }
