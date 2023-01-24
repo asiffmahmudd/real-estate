@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import {FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
 import { IPropertyBase } from 'src/app/model/ipropertybase';
+import { Property } from 'src/app/model/property';
 import { HousingService } from 'src/app/services/housing.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
-import { Property } from 'src/app/model/property';
 
 @Component({
   selector: 'app-add-property',
