@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 app.UseCors(m => {
