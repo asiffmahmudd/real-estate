@@ -1,7 +1,11 @@
 
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Dtos;
 using WebAPI.Interfaces;
 using WebAPI.Models;
+using System.Linq;
+using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace WebAPI.Controllers
 {
@@ -10,27 +14,86 @@ namespace WebAPI.Controllers
     public class CityController : ControllerBase
     {
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;
 
-        public CityController(IUnitOfWork uow)
+        public CityController(IUnitOfWork uow, IMapper mapper)
         {
+            
             this.uow = uow;
+            this.mapper = mapper;
         }
 
         // Get api/city
         [HttpGet]
         public async Task<IActionResult> GetCities()
         {
+            throw new UnauthorizedAccessException("Acces denied");
             var cities = await uow.CityRepository.GetCitiesAsync();
-            return Ok(cities);
+            var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
+
+            return Ok(citiesDto);
         }
 
         //Post api/city/post
         [HttpPost("post")]
-        public async Task<IActionResult> AddCity(City city)
+        public async Task<IActionResult> AddCity(CityDto cityDto)
         {
+
+            var city = mapper.Map<City>(cityDto);
+            city.LastUpdatedBy = 1;
+            city.LastUpdatedOn = DateTime.Now;
+
             uow.CityRepository.AddCity(city);
             await uow.SaveAsync();
             return StatusCode(201);
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityDto cityDto)
+        {
+            try{
+                if (id != cityDto.Id){
+                    return BadRequest("Update not allowed");
+                }
+                var cityFromDb = await uow.CityRepository.FindCity(id);
+                if(cityFromDb == null){
+                    return BadRequest("Update not allowed");
+                }
+                throw new Exception("some unknow");
+                cityFromDb.LastUpdatedBy = 1;
+                cityFromDb.LastUpdatedOn = DateTime.Now;
+                mapper.Map(cityDto, cityFromDb);
+            }
+            catch{
+                return StatusCode(500, "Some unknown error occured!");
+            }
+
+            
+            await uow.SaveAsync();
+            return StatusCode(200);
+        }
+
+        [HttpPut("updateCityName/{id}")]
+        public async Task<IActionResult> UpdateCity(int id, CityUpdateDto cityDto)
+        {
+            var cityFromDb = await uow.CityRepository.FindCity(id);
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            mapper.Map(cityDto, cityFromDb);
+            await uow.SaveAsync();
+            return StatusCode(200);
+        }
+
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateCityPatch(int id, JsonPatchDocument<City> citytoPatch)
+        {
+            var cityFromDb = await uow.CityRepository.FindCity(id);
+            cityFromDb.LastUpdatedBy = 1;
+            cityFromDb.LastUpdatedOn = DateTime.Now;
+            
+            citytoPatch.ApplyTo(cityFromDb, ModelState);
+            await uow.SaveAsync();
+            return StatusCode(200);
         }
 
         [HttpDelete("delete/{id}")]

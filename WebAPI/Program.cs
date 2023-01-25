@@ -1,6 +1,11 @@
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.Extensions;
+using WebAPI.Helpers;
 using WebAPI.Interfaces;
+using WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +22,16 @@ builder.Services.AddCors();
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 var app = builder.Build();
+
+
+
+// app.ConfigureExceptionHandler(app.Environment);
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseCors(m => {
     m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 });
@@ -28,11 +41,31 @@ app.UseCors(m => {
 // app.Configuration.GetConnectionString("Default");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseDeveloperExceptionPage();
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+    
+// }
+// else{
+//     app.UseExceptionHandler(
+//         options => {
+//             options.Run(
+//                 async context => 
+//                 {
+//                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+//                     var ex = context.Features.Get<IExceptionHandlerFeature>();
+//                     if(ex != null){
+//                         await context.Response.WriteAsync(ex.Error.Message);
+//                     }
+//                 }
+//             );
+//         }
+//     );
+// }
+
+
 
 app.UseAuthorization();
 
