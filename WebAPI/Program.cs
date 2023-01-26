@@ -29,43 +29,11 @@ var app = builder.Build();
 
 
 
-// app.ConfigureExceptionHandler(app.Environment);
-app.UseMiddleware<ExceptionMiddleware>();
+app.ConfigureExceptionHandler(app.Environment);
 
 app.UseCors(m => {
     m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 });
-
-
-// Console.WriteLine(app.Configuration.GetConnectionString("Default"));
-// app.Configuration.GetConnectionString("Default");
-
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseDeveloperExceptionPage();
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-    
-// }
-// else{
-//     app.UseExceptionHandler(
-//         options => {
-//             options.Run(
-//                 async context => 
-//                 {
-//                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-//                     var ex = context.Features.Get<IExceptionHandlerFeature>();
-//                     if(ex != null){
-//                         await context.Response.WriteAsync(ex.Error.Message);
-//                     }
-//                 }
-//             );
-//         }
-//     );
-// }
-
-
 
 app.UseAuthorization();
 
