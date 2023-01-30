@@ -18,13 +18,13 @@ namespace WebAPI.Data.Repo
             if (user == null || user.PasswordKey == null){
                 return null;
             }
-            if (!MathPasswordHash(passwordText, user.Password, user.PasswordKey)){
+            if (!MatchPasswordHash(passwordText, user.Password, user.PasswordKey)){
                 return null;
             }
             return user;
         }
 
-        private bool MathPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
+        private bool MatchPasswordHash(string passwordText, byte[] password, byte[] passwordKey)
         {
             using(var hmac = new HMACSHA512(passwordKey))
             {

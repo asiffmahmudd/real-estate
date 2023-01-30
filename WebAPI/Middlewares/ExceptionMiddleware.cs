@@ -41,7 +41,6 @@ namespace WebAPI.Middlewares
                     response = new ApiError((int)statusCode, ex.Message, ex.StackTrace.ToString());
                 }
                 else{
-                    Console.WriteLine("here");
                     response = new ApiError((int)statusCode, message);
                 }
                 logger.LogError(ex, ex.Message);

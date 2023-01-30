@@ -26,9 +26,8 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginReqDto loginReq){
             var user = await uow.UserRepository.Authenticate(loginReq.UserName, loginReq.Password);
-
-            if(user ==null){
-                return Unauthorized();
+            if(user == null){
+                return Unauthorized("Invalid User ID or Password");
             }
 
             var loginRes = new LoginResDto();
