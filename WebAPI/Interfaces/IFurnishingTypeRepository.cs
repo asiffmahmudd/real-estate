@@ -4,8 +4,8 @@ using WebAPI.Models;
 
 namespace WebAPI.Interfaces
 {
-    public interface IPropertyTypeRepository
+    public interface IFurnishingTypeRepository
     {
-        Task<IEnumerable<PropertyType>> GetPropertyTypesAsync();         
+        Task<IEnumerable<FurnishingType>> GetFurnishingTypesAsync();
     }
 }

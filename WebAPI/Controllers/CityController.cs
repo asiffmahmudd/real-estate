@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             if(cityFromDb == null){
                 return BadRequest("Update not allowed");
             }
-            throw new Exception("some unknown error occured");
+            // throw new Exception("some unknown error occured");
             cityFromDb.LastUpdatedBy = 1;
             cityFromDb.LastUpdatedOn = DateTime.Now;
             mapper.Map(cityDto, cityFromDb);

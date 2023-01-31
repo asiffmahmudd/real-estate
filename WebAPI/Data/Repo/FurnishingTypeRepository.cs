@@ -6,17 +6,17 @@ using WebAPI.Models;
 
 namespace WebAPI.Data.Repo
 {
-    public class PropertyTypeRepository : IPropertyTypeRepository
+    public class FurnishingTypeRepository : IFurnishingTypeRepository
     {
         private readonly DataContext dc;
 
-        public PropertyTypeRepository(DataContext dc)
+        public FurnishingTypeRepository(DataContext dc)
         {
             this.dc = dc;
         }
-        public async Task<IEnumerable<PropertyType>> GetPropertyTypesAsync()
+        public async Task<IEnumerable<FurnishingType>> GetFurnishingTypesAsync()
         {
-            return await dc.PropertyTypes.ToListAsync();
+            return await dc.FurnishingTypes.ToListAsync();
         }
     }
 }
