@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {Routes, RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +25,7 @@ import { AlertifyService } from './services/alertify.service';
 import { AuthService } from './services/auth.service';
 import { FilterPipe } from './pipes/filter.pipe';
 import { SortPipe } from './pipes/sort.pipe';
+import { HttpErrorInterceptorService } from './services/httperror-interceptor.service';
 
 const appRoutes: Routes = [
   {path: '', component: PropertyListComponent},
@@ -65,11 +66,16 @@ const appRoutes: Routes = [
       NgxGalleryModule
    ],
    providers: [
-     HousingService,
-     UserService,
-     AlertifyService,
-     AuthService,
-     PropertyDetailResolverService
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: HttpErrorInterceptorService,
+         multi: true
+      },
+      HousingService,
+      UserService,
+      AlertifyService,
+      AuthService,
+      PropertyDetailResolverService
    ],
    bootstrap: [
       AppComponent

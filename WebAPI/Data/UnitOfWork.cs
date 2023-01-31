@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WebAPI.Data.Repo;
 using WebAPI.Interfaces;
 
@@ -11,13 +12,18 @@ namespace WebAPI.Data
         {
             this.dc = dc;
         }
-        public ICityRepository CityRepository => new CityRepository(dc);
+        public ICityRepository CityRepository => 
+            new CityRepository(dc);
 
-        public IUserRepository UserRepository => new UserRepository(dc);
+        public IUserRepository UserRepository =>         
+            new UserRepository(dc);
+
+        public IPropertyRepository PropertyRepository => 
+            new PropertyRepository(dc);
 
         public async Task<bool> SaveAsync()
         {
-            return await dc.SaveChangesAsync() > 0;
+           return await dc.SaveChangesAsync() > 0;
         }
     }
 }
