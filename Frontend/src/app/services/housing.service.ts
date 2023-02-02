@@ -36,15 +36,8 @@ export class HousingService {
   }
 
   addProperty(property: Property) {
-    let newProp = [property];
-
-    // Add new property in array if newProp alreay exists in local storage
-    if (localStorage.getItem('newProp')) {
-      newProp = [property,
-                  ...JSON.parse(localStorage.getItem('newProp') || '{}')];
-    }
-
-    localStorage.setItem('newProp', JSON.stringify(newProp));
+    console.log(property)
+    return this.http.post(this.baseUrl + '/property/add', property);
   }
 
   newPropID() {

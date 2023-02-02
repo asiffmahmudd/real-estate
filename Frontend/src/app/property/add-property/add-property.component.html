@@ -192,7 +192,8 @@
                   <label>Address</label>
                   <input type="text"
                   class="form-control"
-                  formControlName="Address">
+                  formControlName="Address"
+                  name="Address">
                   <div class="error-block"
                   *ngIf="Address.invalid && (nextClicked || Address.touched)">
                     Please select address
@@ -203,6 +204,7 @@
                   <label>Landmark</label>
                   <input type="text"
                   formControlName="LandMark"
+                  name="LandMark"
                   class="form-control">
                 </div>
 
@@ -221,14 +223,14 @@
                   <div class="btn-group" btnRadioGroup
                   formControlName="RTM">
                     <label class="btn btn-outline-primary mr-2"
-                      btnRadio=1 tabindex="0" role="button"
-                      (click)="propertyView.readyToMove=1"
+                      btnRadio=true tabindex="0" role="button"
+                      (click)="propertyView.readyToMove=true"
                       name="RTM">Yes
                     </label>
 
                     <label class="btn btn-outline-primary"
-                      btnRadio=2  tabindex="0" role="button"
-                      (click)="propertyView.readyToMove=0"
+                      btnRadio=false  tabindex="0" role="button"
+                      (click)="propertyView.readyToMove=false"
                       name="RTM">No
                     </label>
                   </div>
@@ -257,24 +259,25 @@
                   btnRadioGroup
                   formControlName="Gated">
                     <label class="btn btn-outline-primary mr-2"
-                    btnRadio=1 tabindex="0" role="button" name="Gated">Yes</label>
+                    btnRadio=true tabindex="0" role="button" name="Gated">Yes</label>
                     <label class="btn btn-outline-primary"
-                    btnRadio=2  tabindex="0" role="button" name="Gated">No</label>
+                    btnRadio=false  tabindex="0" role="button" name="Gated">No</label>
                   </div>
                 </div>
 
                 <div class="form-group col-12">
                   <p>Main Entrance</p>
                   <div class="btn-group" btnRadioGroup
-                  formControlName="MainEntrance">
+                  formControlName="MainEntrance"
+                  name="MainEntrance">
                     <label class="btn btn-outline-primary mr-2"
-                    btnRadio=1 tabindex="0" role="button" name="Entrance">East</label>
+                    btnRadio=East tabindex="0" role="button" name="Entrance">East</label>
                     <label class="btn btn-outline-primary"
-                    btnRadio=2  tabindex="0" role="button" name="Entrance">West</label>
+                    btnRadio=West  tabindex="0" role="button" name="Entrance">West</label>
                     <label class="btn btn-outline-primary"
-                    btnRadio=3  tabindex="0" role="button" name="Entrance">South</label>
+                    btnRadio=South  tabindex="0" role="button" name="Entrance">South</label>
                     <label class="btn btn-outline-primary"
-                    btnRadio=4  tabindex="0" role="button" name="Entrance">North</label>
+                    btnRadio=North  tabindex="0" role="button" name="Entrance">North</label>
                   </div>
                 </div>
 

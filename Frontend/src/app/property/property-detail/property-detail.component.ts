@@ -29,7 +29,7 @@ galleryImages: NgxGalleryImage[];
       }
     );
 
-    this.property.age = this.housingService.getPropertyAge(this.property.estPossessionOn!);
+    this.property.age = this.housingService.getPropertyAge(new Date(this.property.estPossessionOn!));
 
     // this.route.params.subscribe(
     //   (params) => {

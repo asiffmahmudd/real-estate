@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap/tabs/public_api';
@@ -7,6 +7,7 @@ import { Property } from 'src/app/model/property';
 import { HousingService } from 'src/app/services/housing.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { Ikeyvaluepair } from 'src/app/model/IKeyValuePair';
+import { formatDate  } from '@angular/common';
 
 @Component({
   selector: 'app-add-property',
@@ -39,6 +40,7 @@ export class AddPropertyComponent implements OnInit {
   };
 
   constructor(
+    @Inject(LOCALE_ID) private locale: string,
     private fb: FormBuilder,
     private router: Router,
     private housingService: HousingService,
@@ -60,11 +62,6 @@ export class AddPropertyComponent implements OnInit {
     });
   }
 
-  getDate(x:string){
-    console.log("here")
-    console.log(x);
-  }
-
   CreateAddPropertyForm() {
     this.addPropertyForm = this.fb.group({
       BasicInfo: this.fb.group({
@@ -80,8 +77,8 @@ export class AddPropertyComponent implements OnInit {
         Price: [null, Validators.required],
         BuiltArea: [null, Validators.required],
         CarpetArea: [null],
-        Security: [null],
-        Maintenance: [null],
+        Security: [0],
+        Maintenance: [0],
       }),
 
       AddressInfo: this.fb.group({
@@ -217,17 +214,19 @@ export class AddPropertyComponent implements OnInit {
     this.nextClicked = true;
     if (this.allTabsValid()) {
       this.mapProperty();
-      this.housingService.addProperty(this.property);
-      this.alertify.success('Congrats, your property listed successfully on our website');
-      console.log(this.addPropertyForm);
+      console.log(this.property);
+      this.housingService.addProperty(this.property).subscribe(
+        () => {
+          this.alertify.success('Congrats, your property listed successfully on our website');
+          console.log(this.addPropertyForm);
 
-      if(this.SellRent.value === '2') {
-        this.router.navigate(['/rent-property']);
-      } else {
-        this.router.navigate(['/']);
-      }
-
-
+          if(this.SellRent.value === '2') {
+            this.router.navigate(['/rent-property']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        }
+      );
     } else {
       this.alertify.error('Please review the form and provide all valid entries');
     }
@@ -237,10 +236,10 @@ export class AddPropertyComponent implements OnInit {
     this.property.id = this.housingService.newPropID();
     this.property.sellRent = +this.SellRent.value;
     this.property.bhk = this.BHK.value;
-    this.property.propertyType = this.PType.value;
+    this.property.propertyTypeId = this.PType.value;
     this.property.name = this.Name.value;
-    this.property.city = this.City.value;
-    this.property.furnishingType = this.FType.value;
+    this.property.CityId = this.City.value;
+    this.property.furnishingTypeId = this.FType.value;
     this.property.price = this.Price.value;
     this.property.security = this.Security.value;
     this.property.maintenance = this.Maintenance.value;
@@ -251,10 +250,10 @@ export class AddPropertyComponent implements OnInit {
     this.property.address = this.Address.value;
     this.property.address2 = this.LandMark.value;
     this.property.readyToMove = this.RTM.value;
-    this.property.age = this.AOP.value;
+    this.property.age = this.AOP.value || '0';
     this.property.gated = this.Gated.value;
     this.property.mainEntrance = this.MainEntrance.value;
-    this.property.estPossessionOn = this.PossessionOn.value;
+    this.property.estPossessionOn = formatDate(this.PossessionOn.value,'MM/dd/yyyy', this.locale);
     this.property.description = this.Description.value;
   }
 
@@ -284,8 +283,8 @@ export class AddPropertyComponent implements OnInit {
 
   selectTab(NextTabId: number, IsCurrentTabValid: boolean) {
     this.nextClicked = true;
-    if (this.formTabs?.tabs[NextTabId]) {
-      this.formTabs.tabs[NextTabId].active = true;
+    if (IsCurrentTabValid) {
+        this.formTabs.tabs[NextTabId].active = true;
     }
   }
 }
